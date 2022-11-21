@@ -9,7 +9,8 @@ PowerShell post-installation script to minimize and customize Windows operating 
 * Make sure that the requirements (see REQUIREMENTS) are fulfilled
 * Download a zip file and uncompress it
 * Adjust the settings and variables in section of the script to your environment and requirements
-* Start the PowerShell script using ```./customize-windows-client.ps1```
+* Start the PowerShell script using ```.\customize-windows-client.ps1```
+* If ExecutionPolicy is restricted try to use: ```powershell -ExecutionPolicy Bypass .\customize-windows-client.ps1```
 
 ## SOURCE REFERENCES
 The idea to use a separate script for each customization action as well as some actions were taken from the windows-trimity project. Thanks! (https://github.com/toolarium/windows-trimify/blob/master/LICENSE)

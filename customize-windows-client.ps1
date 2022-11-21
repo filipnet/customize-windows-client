@@ -50,22 +50,22 @@ $Excludes = @(
 # ---------- DO NOT CHANGE THINGS BELOW THIS LINE -----------------------------
 
 # Create C:\Temp and C:\Install folders if not exists
+Write-Host ($CR +"Create $TEMPFOLDER and $INSTALLFOLDER folders") -foregroundcolor $FOREGROUNDCOLOR $CR 
 If(!(test-path $TEMPFOLDER)) {
     New-Item -ItemType Directory -Force -Path $TEMPFOLDER
 }
 If(!(test-path $INSTALLFOLDER)) {
     New-Item -ItemType Directory -Force -Path $INSTALLFOLDER
 }
-Write-Host ("Create $TEMPFOLDER and $INSTALLFOLDER folders") -foregroundcolor $FOREGROUNDCOLOR $CR 
 
 ## Backup Registry
-reg export HKLM C:\Install\registry-backup-hklm.reg | Out-Null
-reg export HKCU C:\Install\registry-backup-hkcu.reg | Out-Null
-reg export HKCR C:\Install\registry-backup-hkcr.reg | Out-Null
-Write-Host ($CR + "Registry Backup" + $BLANK + $TIME) -foregroundcolor $FOREGROUNDCOLOR $CR
+Write-Host ($CR +"Create Registry Backup" + $BLANK + $TIME) -foregroundcolor $FOREGROUNDCOLOR $CR
+reg export HKLM C:\Install\registry-backup-hklm.reg /y | Out-Null
+reg export HKCU C:\Install\registry-backup-hkcu.reg /y | Out-Null
+reg export HKCR C:\Install\registry-backup-hkcr.reg /y | Out-Null
 
 # Start customization
-Write-Host ("This system will customized and minimized") -foregroundcolor $FOREGROUNDCOLOR $CR
+Write-Host ($CR +"This system will customized and minimized") -foregroundcolor $FOREGROUNDCOLOR $CR
 $confirmation = Read-Host "Are you sure you want to proceed? [press: y]"
 if ($confirmation -eq 'y') {
     # Create array of actions out of include folder
@@ -79,17 +79,17 @@ if ($confirmation -eq 'y') {
         Write-Host "Execute " -NoNewline
         Write-Host ("$Action") -foregroundcolor Yellow -NoNewline
         Write-Host " ..."
-        #& "includes\$Action"
+        & "includes\$Action"
     }
 }
 
-# Start customization
-Write-Host ("Hostname and workgoup will be cahnged") -foregroundcolor $FOREGROUNDCOLOR $CR
+# Start renaming client
+Write-Host ($CR +"Hostname and workgoup will be cahnged") -foregroundcolor $FOREGROUNDCOLOR $CR
 $confirmation = Read-Host "Are you sure you want to change it? [press: y]"
 if ($confirmation -eq 'y') {
     # Set hostname and workgroup
     Try {
-        Rename-Computer –NewName $HOSTNAME -ErrorAction Stop
+        Rename-Computer -NewName $HOSTNAME -ErrorAction Stop
     } Catch {
         Write-Warning $Error[0]
     }
@@ -102,7 +102,7 @@ if ($confirmation -eq 'y') {
 }
 
 # Restart to apply all changes
-Write-Host ("This system will restart to apply all changes") -foregroundcolor $FOREGROUNDCOLOR  $CR 
+Write-Host ("This system will restart to apply all changes") -foregroundcolor $FOREGROUNDCOLOR $CR 
 $confirmation = Read-Host "Are you sure you want to proceed restart? [press: y]"
 if ($confirmation -eq 'y') {
     Restart-Computer -ComputerName localhost
