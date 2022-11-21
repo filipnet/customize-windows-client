@@ -35,7 +35,6 @@ Get-AppxPackage "Microsoft.ZuneMusic" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
 
 # Uninstall default third party applications
-Write-Output "Uninstalling default third party applications..."
 Get-AppxPackage "2414FC7A.Viber" | Remove-AppxPackage
 Get-AppxPackage "41038Axilesoft.ACGMediaPlayer" | Remove-AppxPackage
 Get-AppxPackage "46928bounde.EclipseManager" | Remove-AppxPackage
@@ -98,7 +97,7 @@ $SoftwarePackages = @(
 	"Microsoft.OneConnect"
 	"Microsoft.People"
 	"Microsoft.Print3D"
-	#"Microsoft.SkypeApp"
+	"Microsoft.SkypeApp"
 	"Microsoft.StorePurchaseApp"
 	"Microsoft.Whiteboard"
 	"Microsoft.WindowsAlarms"

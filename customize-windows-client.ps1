@@ -49,8 +49,24 @@ $Excludes = @(
 
 # ---------- DO NOT CHANGE THINGS BELOW THIS LINE -----------------------------
 
+# Check if the powershell is started as an administrator
+function Test-Administrator {  
+    [OutputType([bool])]
+    param()
+    process {
+        [Security.Principal.WindowsPrincipal]$user = [Security.Principal.WindowsIdentity]::GetCurrent();
+        return $user.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator);
+    }
+}
+
+if(-not (Test-Administrator)) {
+    Write-Error "This script must be executed as Administrator.";
+    Read-Host “Press ENTER to continue...”
+    exit 1;
+}
+
 # Create C:\Temp and C:\Install folders if not exists
-Write-Host ($CR +"Create $TEMPFOLDER and $INSTALLFOLDER folders") -foregroundcolor $FOREGROUNDCOLOR $CR 
+Write-Host ($CR +"Create $TEMPFOLDER and $INSTALLFOLDER folders") -foregroundcolor $FOREGROUNDCOLOR
 If(!(test-path $TEMPFOLDER)) {
     New-Item -ItemType Directory -Force -Path $TEMPFOLDER
 }
@@ -102,7 +118,7 @@ if ($confirmation -eq 'y') {
 }
 
 # Restart to apply all changes
-Write-Host ("This system will restart to apply all changes") -foregroundcolor $FOREGROUNDCOLOR $CR 
+Write-Host ($CR +"This system will restart to apply all changes") -foregroundcolor $FOREGROUNDCOLOR $CR 
 $confirmation = Read-Host "Are you sure you want to proceed restart? [press: y]"
 if ($confirmation -eq 'y') {
     Restart-Computer -ComputerName localhost
